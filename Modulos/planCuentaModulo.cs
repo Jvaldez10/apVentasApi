@@ -25,11 +25,89 @@ namespace sistema_venta_erp.Modulos
         {
             return await this._vPlanCuentasRepositorios.ObtenerTodoPlanCuentasRepositorio();
         }
+        public async Task<List<VPlanCuentas>> ObtenerTodoPorVPlanCuentaId(int VPlanCuentaId)
+        {
+            return await this._vPlanCuentasRepositorios.ObtenerTodoPlanCuentasPorPadreIdRepositorio(VPlanCuentaId);
+        }
         public async Task<VPlanCuentas> ObtenerUno(int id)
         {
-            var proveedores = await this._vPlanCuentasRepositorios.ObtenerUnoTodoPlanCuentasRepositorio(id);
-            var proveedor = proveedores.FirstOrDefault();
-            return proveedor;
+            var plancuentas = await this._vPlanCuentasRepositorios.ObtenerUnoRepositorio(id);
+            var plancuenta = plancuentas.FirstOrDefault();
+            return plancuenta;
+        }
+        public async Task<GeneracionCodigo> CreateUno(int nivel, int padre)
+        {
+            if (padre == 0)
+            {
+                return await this.CreateUnoPadre(nivel, padre);
+            }
+            else
+            {
+                return await this.CreateUnoHijo(nivel, padre);
+            }
+        }
+        public async Task<GeneracionCodigo> CreateUnoPadre(int nivel, int padre)
+        {
+            var plancuentas = new List<VPlanCuentas>();
+            plancuentas = await this._vPlanCuentasRepositorios.ObtenerUltimoPlanRepositorio(nivel);
+            var plancuenta = plancuentas.FirstOrDefault();
+            var resultado = new GeneracionCodigo();
+            if (plancuenta == null)
+            {
+                resultado.codigo = "1000000";
+                resultado.nivel = nivel;
+            }
+            else
+            {
+                resultado.codigo = this.IdentificarNivel(Convert.ToInt32(plancuenta.codigo), nivel);
+                resultado.nivel = nivel;
+            }
+            return resultado;
+        }
+        public async Task<GeneracionCodigo> CreateUnoHijo(int nivel, int padre)
+        {
+            nivel = nivel + 1;
+            var plancuentas = await this._vPlanCuentasRepositorios.ObtenerUltimoPlanPadreIdRepositorio(padre, nivel);
+            var plancuenta = plancuentas.FirstOrDefault();
+            var resultado = new GeneracionCodigo();
+            if (plancuenta == null)
+            {
+                var nuevo = await this.ObtenerUno(padre);
+                resultado.codigo = this.IdentificarNivel(Convert.ToInt32(nuevo.codigo), nivel);
+                resultado.nivel = nivel;
+            }
+            else
+            {
+
+                resultado.codigo = this.IdentificarNivel(Convert.ToInt32(plancuenta.codigo), nivel);
+                resultado.nivel = nivel;
+            }
+            return resultado;
+        }
+        private string IdentificarNivel(int valor, int nivel)
+        {
+            int resultado = 1000000;
+            switch (nivel)
+            {
+                case 0:
+                    resultado = valor + 1000000;
+                    break;
+                case 1:
+                    resultado = valor + 100000;
+                    break;
+                case 2:
+                    resultado = valor + 10000;
+                    break;
+                case 3:
+                    resultado = valor + 1000;
+                    break;
+                case 4:
+                    resultado = valor + 1;
+                    break;
+                default:
+                    break;
+            }
+            return resultado.ToString();
         }
         public async Task<string> InsertarUno(planCuentaDto planCuentaDto)
         {
@@ -92,5 +170,10 @@ namespace sistema_venta_erp.Modulos
                 return $"Error no eliminado";
             }
         }
+    }
+    public class GeneracionCodigo
+    {
+        public string codigo { get; set; }
+        public int nivel { get; set; }
     }
 }

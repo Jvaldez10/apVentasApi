@@ -48,8 +48,9 @@ namespace sistema_venta_erp.Repositorio
             string codigoProveedor,
             string nombreProveedor,
             string dirrecion,
-            string credito,
-            string telefono
+            decimal credito,
+            int telefono,
+            int planCuentaId
         )
         {
             this._logger.LogWarning($"ProveedoresRepositorio/InsertarProveedoresRepositorio({codigoProveedor},{nombreProveedor}, {dirrecion},{credito},{telefono}): Inizialize...");
@@ -59,7 +60,8 @@ namespace sistema_venta_erp.Repositorio
                 nombreProveedor,
                 dirrecion,
                 credito,
-                telefono
+                telefono,
+                planCuentaId
             );
             var ejecutar = await this._dBContext.Database.ExecuteSqlRawAsync(sql);
             if (ejecutar > 0)
@@ -78,8 +80,9 @@ namespace sistema_venta_erp.Repositorio
             string codigoProveedor,
             string nombreProveedor,
             string dirrecion,
-            string credito,
-            string telefono
+            decimal credito,
+            int telefono,
+            int planCuentaId
         )
         {
             this._logger.LogWarning($"ProveedoresRepositorio/ModificarProveedoresRepositorio({id},{codigoProveedor},{nombreProveedor}, {dirrecion},{credito},{telefono}): Inizialize...");
@@ -90,7 +93,8 @@ namespace sistema_venta_erp.Repositorio
                 nombreProveedor,
                 dirrecion,
                 credito,
-                telefono
+                telefono,
+                planCuentaId
             );
             var ejecutar = await this._dBContext.Database.ExecuteSqlRawAsync(sql);
             if (ejecutar > 0)

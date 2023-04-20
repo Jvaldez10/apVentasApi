@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
@@ -6,19 +10,19 @@ using sistema_venta_erp.Modulos;
 namespace sistema_venta_erp.Controllers
 {
     [ApiController]
-    [Route("api/proveedor")]
-    public class ProveedoresControllers : ControllerBase
+    [Route("api/clasificacion")]
+    public class ClasificacionControllers : ControllerBase
     {
-        private readonly ILogger<ProveedoresControllers> _logger;
-        private readonly ProveedoresModulo _proveedoresModulo;
+        private readonly ILogger<ClasificacionControllers> _logger;
+        private readonly ClasificacionModule _clasificacionModule;
 
-        public ProveedoresControllers(
-           ILogger<ProveedoresControllers> logger,
-           ProveedoresModulo proveedoresModulo
+        public ClasificacionControllers(
+            ILogger<ClasificacionControllers> logger,
+            ClasificacionModule clasificacionModule
         )
         {
             this._logger = logger;
-            this._proveedoresModulo = proveedoresModulo;
+            this._clasificacionModule = clasificacionModule;
         }
         [HttpGet]
         public async Task<Response> ObtenerTodo()
@@ -26,12 +30,12 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
-                var proveedoresLista = await this._proveedoresModulo.ObtenerTodo();
+                var clasificaciones = await this._clasificacionModule.ObtenerTodo();
                 var resultado = new Response
                 {
                     status = 1,
-                    message = "Todo los proveedores",
-                    data = proveedoresLista
+                    message = "Todo los clasificacion",
+                    data = clasificaciones
                 };
                 this._logger.LogWarning($"ObtenerTodo() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -44,22 +48,22 @@ namespace sistema_venta_erp.Controllers
                     message = $"Ocurrio un error inesperado",
                     data = null
                 };
-                this._logger.LogError($"ListaProveedores() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
+                this._logger.LogError($"ObtenerTodo() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
                 return result;
             }
         }
         [HttpGet("{id}")]
         public async Task<Response> ObtenerUno(int id)
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} OBtenerUno({id}) Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
             try
             {
-                var proveedor = await this._proveedoresModulo.ObtenerUno(id);
+                var clasificacion = await this._clasificacionModule.ObtenerUno(id);
                 var resultado = new Response
                 {
                     status = 1,
                     message = "Todo proveedor",
-                    data = proveedor
+                    data = clasificacion
                 };
                 this._logger.LogWarning($"ObtenerUno() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -73,21 +77,49 @@ namespace sistema_venta_erp.Controllers
                     data = null
                 };
                 this._logger.LogError($"OBtenerUno() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
+                return result;
+            }
+        }
+         [HttpGet("clasificacion-padre/{id}")]
+        public async Task<Response> ObtenerUnoPadreId(int id)
+        {
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUnoPadreId({id}) Inizialize ...");
+            try
+            {
+                var clasificacion = await this._clasificacionModule.ObtenerUnoPadreId(id);
+                var resultado = new Response
+                {
+                    status = 1,
+                    message = "Todo clasificacion Padre id",
+                    data = clasificacion
+                };
+                this._logger.LogWarning($"ObtenerUnoPadreId() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+                return resultado;
+            }
+            catch (System.Exception e)
+            {
+                var result = new Response
+                {
+                    status = 0,
+                    message = $"Ocurrio un error inesperado",
+                    data = null
+                };
+                this._logger.LogError($"ObtenerUnoPadreId() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
                 return result;
             }
         }
         [HttpGet("create")]
         public async Task<Response> CrearUno()
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} OBtenerUno() Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno() Inizialize ...");
             try
             {
-                var data = await this._proveedoresModulo.CrearUno();
+                var create = await this._clasificacionModule.CrearUno();
                 var resultado = new Response
                 {
                     status = 1,
                     message = "Todo proveedor",
-                    data = data
+                    data = create
                 };
                 this._logger.LogWarning($"ObtenerUno() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -100,17 +132,17 @@ namespace sistema_venta_erp.Controllers
                     message = $"Ocurrio un error inesperado",
                     data = null
                 };
-                this._logger.LogError($"OBtenerUno() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
+                this._logger.LogError($"ObtenerUno() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
                 return result;
             }
         }
         [HttpPost]
-        public async Task<Response> InsertarUno([FromBody] ProveedorDto proveedorDto)
+        public async Task<Response> InsertarUno([FromBody] ClasificacionDto ClasificacionDto)
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(proveedorDto, Formatting.Indented)}) Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(ClasificacionDto, Formatting.Indented)}) Inizialize ...");
             try
             {
-                var insertar = await this._proveedoresModulo.InsertarUno(proveedorDto);
+                var insertar = await this._clasificacionModule.InsertarUno(ClasificacionDto);
                 var resultado = new Response
                 {
                     status = 1,
@@ -138,7 +170,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} EditarUno({id}) Inizialize ...");
             try
             {
-                var obtenerUno = await this._proveedoresModulo.EditarUno(id);
+                var obtenerUno = await this._clasificacionModule.EditarUno(id);
                 var resultado = new Response
                 {
                     status = 1,
@@ -161,13 +193,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<Response> ModificarUno(int id, [FromBody] ProveedorDto proveedorDto)
+        public async Task<Response> ModificarUno(int id, [FromBody] ClasificacionDto ClasificacionDto)
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(proveedorDto, Formatting.Indented)}) Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(ClasificacionDto, Formatting.Indented)}) Inizialize ...");
             try
             {
-                var modificar = await this._proveedoresModulo.ModificarUno(id,
-                    proveedorDto
+                var modificar = await this._clasificacionModule.ModificarUno(id,
+                    ClasificacionDto
                 );
                 var resultado = new Response
                 {
@@ -196,7 +228,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} EliminarUno({id}) Inizialize ...");
             try
             {
-                var eliminar = await this._proveedoresModulo.EliminarUno(id);
+                var eliminar = await this._clasificacionModule.EliminarUno(id);
                 var resultado = new Response
                 {
                     status = 1,

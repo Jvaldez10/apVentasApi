@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sistema_venta_erp.Entidades
+namespace sistema_venta_erp.Controllers.Dto
 {
-    public class VProducto
+    public class ProductoDto
     {
-        [Key]
         public int id { get; set; }
         public string codigoProducto { get; set; }
         public string codigoBarra { get; set; }
@@ -24,7 +22,9 @@ namespace sistema_venta_erp.Entidades
         public decimal utilidadMax { get; set; }
         public decimal precioVentaMax { get; set; }
         public string lote { get; set; }
-        public int VProveedoreId { get; set; }
-        public int VClasificacionId { get; set; }
+        public int proveedoreId { get; set; }
+        public int clasificacionId { get; set; }
+        public List<string> imagenes { get; set; }
     }
+    
 }

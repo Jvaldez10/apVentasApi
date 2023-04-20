@@ -6,19 +6,19 @@ using sistema_venta_erp.Modulos;
 namespace sistema_venta_erp.Controllers
 {
     [ApiController]
-    [Route("api/proveedor")]
-    public class ProveedoresControllers : ControllerBase
+    [Route("api/clientes")]
+    public class ClienteControllers : ControllerBase
     {
-        private readonly ILogger<ProveedoresControllers> _logger;
-        private readonly ProveedoresModulo _proveedoresModulo;
+        private readonly ILogger<ClienteControllers> _logger;
+        private readonly ClienteModule _clienteModule;
 
-        public ProveedoresControllers(
-           ILogger<ProveedoresControllers> logger,
-           ProveedoresModulo proveedoresModulo
+        public ClienteControllers(
+           ILogger<ClienteControllers> logger,
+           ClienteModule clienteModule
         )
         {
             this._logger = logger;
-            this._proveedoresModulo = proveedoresModulo;
+            this._clienteModule = clienteModule;
         }
         [HttpGet]
         public async Task<Response> ObtenerTodo()
@@ -26,12 +26,12 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
-                var proveedoresLista = await this._proveedoresModulo.ObtenerTodo();
+                var clientes = await this._clienteModule.ObtenerTodo();
                 var resultado = new Response
                 {
                     status = 1,
                     message = "Todo los proveedores",
-                    data = proveedoresLista
+                    data = clientes
                 };
                 this._logger.LogWarning($"ObtenerTodo() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -54,7 +54,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} OBtenerUno({id}) Inizialize ...");
             try
             {
-                var proveedor = await this._proveedoresModulo.ObtenerUno(id);
+                var proveedor = await this._clienteModule.ObtenerUno(id);
                 var resultado = new Response
                 {
                     status = 1,
@@ -82,7 +82,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} OBtenerUno() Inizialize ...");
             try
             {
-                var data = await this._proveedoresModulo.CrearUno();
+                var data = await this._clienteModule.CrearUno();
                 var resultado = new Response
                 {
                     status = 1,
@@ -105,12 +105,12 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost]
-        public async Task<Response> InsertarUno([FromBody] ProveedorDto proveedorDto)
+        public async Task<Response> InsertarUno([FromBody] ClienteDto clienteDto)
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(proveedorDto, Formatting.Indented)}) Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(clienteDto, Formatting.Indented)}) Inizialize ...");
             try
             {
-                var insertar = await this._proveedoresModulo.InsertarUno(proveedorDto);
+                var insertar = await this._clienteModule.InsertarUno(clienteDto);
                 var resultado = new Response
                 {
                     status = 1,
@@ -138,7 +138,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} EditarUno({id}) Inizialize ...");
             try
             {
-                var obtenerUno = await this._proveedoresModulo.EditarUno(id);
+                var obtenerUno = await this._clienteModule.EditarUno(id);
                 var resultado = new Response
                 {
                     status = 1,
@@ -161,13 +161,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<Response> ModificarUno(int id, [FromBody] ProveedorDto proveedorDto)
+        public async Task<Response> ModificarUno(int id, [FromBody] ClienteDto clienteDto)
         {
-            this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(proveedorDto, Formatting.Indented)}) Inizialize ...");
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(clienteDto, Formatting.Indented)}) Inizialize ...");
             try
             {
-                var modificar = await this._proveedoresModulo.ModificarUno(id,
-                    proveedorDto
+                var modificar = await this._clienteModule.ModificarUno(id,
+                    clienteDto
                 );
                 var resultado = new Response
                 {
@@ -196,7 +196,7 @@ namespace sistema_venta_erp.Controllers
             this._logger.LogWarning($"{Request.Method}{Request.Path} EliminarUno({id}) Inizialize ...");
             try
             {
-                var eliminar = await this._proveedoresModulo.EliminarUno(id);
+                var eliminar = await this._clienteModule.EliminarUno(id);
                 var resultado = new Response
                 {
                     status = 1,

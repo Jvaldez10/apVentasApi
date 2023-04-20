@@ -36,13 +36,42 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
-        public async Task<List<VPlanCuentas>> ObtenerUnoTodoPlanCuentasRepositorio(int id)
+        public async Task<List<VPlanCuentas>> ObtenerTodoPlanCuentasPorPadreIdRepositorio(int VPlanCuentaId)
         {
-            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoTodoPlanCuentasRepositorio({id}): Inizialize...");
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasPorPadreIdRepositorio(): Inizialize...");
+
+            var sql = this._vPlanCuentaConsulta.ObtenerTodoPorPadreID(VPlanCuentaId);
+            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasPorPadreIdRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+            return resultado;
+        }
+        public async Task<List<VPlanCuentas>> ObtenerUltimoPlanRepositorio(int nivel)
+        {
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanRepositorio(): Inizialize...");
+
+            var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlan(nivel);
+            //this._logger.LogWarning($"{sql}");
+            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+            return resultado;
+        }
+        public async Task<List<VPlanCuentas>> ObtenerUltimoPlanPadreIdRepositorio(int VPlanCuentaId, int nivel)
+        {
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanPadreIdRepositorio({VPlanCuentaId},{nivel}): Inizialize...");
+
+            var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlanPadre(VPlanCuentaId,nivel);
+            this._logger.LogWarning($"{sql}");
+            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanPadreIdRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+            return resultado;
+        }
+        public async Task<List<VPlanCuentas>> ObtenerUnoRepositorio(int id)
+        {
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio({id}): Inizialize...");
             var sql = this._vPlanCuentaConsulta.ObtenerUno(id);
             var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"{sql}");
-            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoTodoPlanCuentasRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+            this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<int> InsertarPlanCuentasRepositorio(

@@ -29,11 +29,13 @@ namespace sistema_venta_erp
             services.AddDbContext<DBContext>(options =>
             {
                 options.UseMySql(mysqlConnect, ServerVersion.AutoDetect(mysqlConnect));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             this.ServicesTransitorioModulos(services);
             this.ServicesTransitorioRepositorio(services);
             this.ServicesTransitorioConsulta(services);
+            this.ServicesUtils(services);
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -73,18 +75,45 @@ namespace sistema_venta_erp
             services.AddTransient<ProveedoresModulo>();
             services.AddTransient<PlanCuentaModulo>();
             services.AddTransient<AlmacenModulo>();
+            services.AddTransient<PlanClienteModulo>();
+            services.AddTransient<PlanProductoModulo>();
+            services.AddTransient<PlanProveedoresModulo>();
+            services.AddTransient<MonedaModule>();
+            services.AddTransient<NivelModule>();
+            services.AddTransient<ClienteModule>();
+            services.AddTransient<ClasificacionModule>();
+            services.AddTransient<ProductoModule>();
         }
         private void ServicesTransitorioRepositorio(IServiceCollection services)
         {
             services.AddTransient<ProveedoresRepositorio>();
             services.AddTransient<VPlanCuentasRepositorios>();
             services.AddTransient<VAlmacenRepositorio>();
+            services.AddTransient<VPlanClienteRepositorio>();
+            services.AddTransient<VPlanProductoRepositorio>();
+            services.AddTransient<VPlanProveedoresRepositorio>();
+            services.AddTransient<VMonedaRepositorio>();
+            services.AddTransient<VNivelRepositorio>();
+            services.AddTransient<VClienteRepositorio>();
+            services.AddTransient<VClasificacionRepositorio>();
+            services.AddTransient<VProductoRepositorio>();
+            services.AddTransient<VProductoImagenesRepositorio>();
         }
         private void ServicesTransitorioConsulta(IServiceCollection services)
         {
             services.AddTransient<ProveedoresConsulta>();
             services.AddTransient<VPlanCuentaConsulta>();
             services.AddTransient<VAlmacenConsulta>();
+            services.AddTransient<VPlanClientesConsulta>();
+            services.AddTransient<VPlanProductosConsulta>();
+            services.AddTransient<VPlanProveedoresConsulta>();
+            services.AddTransient<VNivelConsulta>();
+            services.AddTransient<VMonedaConsulta>();
+        }
+        private void ServicesUtils(IServiceCollection services)
+        {
+            services.AddTransient<FilesConvert>();
+            services.AddTransient<Letras>();
         }
     }
 }

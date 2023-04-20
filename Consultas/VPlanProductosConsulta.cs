@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace sistema_venta_erp.Consultas
 {
-    public class VPlanCuentaConsulta
+    public class VPlanProductosConsulta
     {
         public string ObtenerTodo()
         {
@@ -21,31 +21,7 @@ namespace sistema_venta_erp.Consultas
                     nivel,
                     nombreCuenta,
                     valor
-                FROM vplancuenta
-                ORDER BY
-                    codigo
-                ASC;
-            ";
-        }
-        public string ObtenerTodoPorPadreID(int VPlanCuentaId)
-        {
-            return @$"
-                SELECT
-                    id,
-                    codigoIdentificador,
-                    VPlanCuentaId,
-                    codigo,
-                    debe,
-                    haber,
-                    moneda,
-                    nivel,
-                    nombreCuenta,
-                    valor
-                FROM vplancuenta
-                WHERE VPlanCuentaId='{VPlanCuentaId}'
-                ORDER BY
-                    id
-                ASC;
+                FROM vplanproductos;
             ";
         }
         public string ObtenerUno(int id)
@@ -62,47 +38,8 @@ namespace sistema_venta_erp.Consultas
                     nivel,
                     nombreCuenta,
                     valor
-                FROM vplancuenta
+                FROM vplanproductos
                 WHERE id='{id}';
-            ";
-        }
-        public string ObtenerUltimoPlan(int nivel)
-        {
-            return @$" 
-                SELECT 
-                    id,
-                    codigoIdentificador,
-                    VPlanCuentaId,
-                    codigo,
-                    debe,
-                    haber,
-                    moneda,
-                    nivel,
-                    nombreCuenta,
-                    valor
-                FROM vplancuenta 
-                WHERE VPlanCuentaId='{nivel}'  
-                ORDER BY id DESC LIMIT 1
-            ";
-        }
-        public string ObtenerUltimoPlanPadre(int vplancuenta,int nivel)
-        {
-            return @$" 
-                SELECT 
-                    id,
-                    codigoIdentificador,
-                    VPlanCuentaId,
-                    codigo,
-                    debe,
-                    haber,
-                    moneda,
-                    nivel,
-                    nombreCuenta,
-                    valor
-                FROM vplancuenta 
-                WHERE VPlanCuentaId='{vplancuenta}'
-                and nivel ='{nivel}'
-                ORDER BY id DESC LIMIT 1
             ";
         }
         public string InsertarUno(
@@ -119,7 +56,7 @@ namespace sistema_venta_erp.Consultas
         {
             return @$"
                 insert into 
-                vplancuenta (
+                vplanproductos (
                     codigo, 
                     nombreCuenta, 
                     moneda, 
@@ -159,7 +96,7 @@ namespace sistema_venta_erp.Consultas
         {
             return @$"
                 update 
-                    vplancuenta 
+                    vplanproductos 
                 set 
                     codigo = '{codigo}',
                     nombreCuenta = '{nombreCuenta}',
@@ -178,7 +115,7 @@ namespace sistema_venta_erp.Consultas
         {
             return @$"
                 delete from 
-                    vplancuenta 
+                    vplanproductos 
                 where 
                     id = '{id}';
             ";

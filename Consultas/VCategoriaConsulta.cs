@@ -7,7 +7,7 @@ namespace sistema_venta_erp.Consultas
 {
     public class VCategoriaConsulta
     {
-         public string ObtenerTodo()
+        public string ObtenerTodo()
         {
             return @$"
                 SELECT 

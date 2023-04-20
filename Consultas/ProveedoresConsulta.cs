@@ -16,7 +16,8 @@ namespace sistema_venta_erp.Consultas
                     nombreProveedor,
                     dirrecion,
                     credito,
-                    telefono
+                    telefono,
+                    planCuentaId
                 FROM vproveedores;
             ";
         }
@@ -29,7 +30,8 @@ namespace sistema_venta_erp.Consultas
                     nombreProveedor,
                     dirrecion,
                     credito,
-                    telefono
+                    telefono,
+                    planCuentaId
                 FROM vproveedores
                 WHERE id='{id}';
             ";
@@ -38,8 +40,9 @@ namespace sistema_venta_erp.Consultas
             string codigoProveedor,
             string nombreProveedor,
             string dirrecion,
-            string credito,
-            string telefono
+            decimal credito,
+            int telefono,
+            int planCuentaId
         )
         {
             return @$"
@@ -49,7 +52,8 @@ namespace sistema_venta_erp.Consultas
                         nombreProveedor, 
                         dirrecion, 
                         credito, 
-                        telefono
+                        telefono,
+                        planCuentaId
                     )
                     values
                     (
@@ -57,7 +61,8 @@ namespace sistema_venta_erp.Consultas
                         '{nombreProveedor}', 
                         '{dirrecion}', 
                         '{credito}', 
-                        '{telefono}'
+                        '{telefono}',
+                        '{planCuentaId}'
                     );
             ";
         }
@@ -66,8 +71,9 @@ namespace sistema_venta_erp.Consultas
             string codigoProveedor,
             string nombreProveedor,
             string dirrecion,
-            string credito,
-            string telefono
+            decimal credito,
+            int telefono,
+            int planCuentaId
         )
         {
             return @$"
@@ -78,10 +84,12 @@ namespace sistema_venta_erp.Consultas
                     nombreProveedor = '{nombreProveedor}',
                     dirrecion = '{dirrecion}',
                     credito = '{credito}',
-                    telefono = '{telefono}'
+                    telefono = '{telefono}',
+                    planCuentaId = '{planCuentaId}'
                 where 
                     id = '{id}';
             ";
+
         }
         public string EliminarUno(int id)
         {

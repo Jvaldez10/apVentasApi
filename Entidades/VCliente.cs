@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace sistema_venta_erp.Entidades
 {
-    public class VProveedor
+    public class VCliente
     {
         [Key]
         public int id { get; set; }
-        public string codigoProveedor { get; set; }
-        public string nombreProveedor { get; set; }
+        public string ci { get; set; }
+        public string codigoCliente { get; set; }
+        public string nombreCompletoCliente { get; set; }
+        public string correoElectronico { get; set; }
         public string dirrecion { get; set; }
         public string telefono { get; set; }
-        public decimal credito { get; set; }
-        public int planCuentaId { get; set; }
+        public decimal lineaCredito { get; set; }
+        public int PlanCuentaId { get; set; }
     }
 }
