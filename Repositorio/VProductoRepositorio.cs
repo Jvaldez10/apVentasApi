@@ -22,14 +22,14 @@ namespace sistema_venta_erp.Repositorio
         public async Task<List<VProducto>> ObtenerTodoProductoRepositorio()
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoProductoRepositorio(): Inizialize...");
-            var resultado = await this._dBContext.VProducto.ToListAsync();
+            var resultado = await this._dBContext.vproducto.ToListAsync();
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoProductoRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VProducto> ObtenerUnoProductoRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoProductoRepositorio({id}): Inizialize...");
-            var resultado = await this._dBContext.VProducto.FirstOrDefaultAsync(x => x.id == id);
+            var resultado = await this._dBContext.vproducto.FirstOrDefaultAsync(x => x.id == id);
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoProductoRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -38,21 +38,21 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"VClienteRepositorio/InsertarProductoRepositorio({JsonConvert.SerializeObject(vProducto, Formatting.Indented)}): Inizialize...");
             var update = new VProducto();
             update = vProducto;
-            var insert = await this._dBContext.VProducto.AddAsync(update);
+            var insert = await this._dBContext.vproducto.AddAsync(update);
             await this._dBContext.SaveChangesAsync();
             return vProducto;
         }
         public async Task<VProducto> ModificarProductoRepositorio(VProducto vProducto)
         {
             this._logger.LogWarning($"VClienteRepositorio/ModificarProductoRepositorio({JsonConvert.SerializeObject(vProducto, Formatting.Indented)}): Inizialize...");
-            this._dBContext.VProducto.Update(vProducto);
+            this._dBContext.vproducto.Update(vProducto);
             await this._dBContext.SaveChangesAsync();
             return vProducto;
         }
         public async Task<int> EliminarProductoRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/DeleteProductoRepositorio({id}): Inizialize...");
-            this._dBContext.VProducto.Remove(new VProducto { id = id });
+            this._dBContext.vproducto.Remove(new VProducto { id = id });
             await this._dBContext.SaveChangesAsync();
             return id;
         }

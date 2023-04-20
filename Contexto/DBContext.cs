@@ -16,7 +16,7 @@ namespace sistema_venta_erp.Contexto
         public virtual DbSet<VAlmacen> VAlmacen { get; set; }
         public virtual DbSet<VCategoria> VCategoria { get; set; }
         public virtual DbSet<VPlanCuentas> VPlanCuentas { get; set; }
-        public virtual DbSet<VProducto> VProducto { get; set; }
+        public virtual DbSet<VProducto> vproducto { get; set; }
         public virtual DbSet<VProveedor> VProveedor { get; set; }
         public virtual DbSet<VUtilidad> VUtilidad { get; set; }
         public virtual DbSet<VPlanClientes> VPlanClientes { get; set; }

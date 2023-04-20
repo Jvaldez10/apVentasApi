@@ -1,4 +1,4 @@
 ## deploy  demo
 /usr/bin/dotnet /home/todosof/public_html/aplusVentasApi/bin/Debug/net7.0/publish/sistema-venta-erp.dll 
-## permisos de escritura root 
+## permisos de escritura root sobre la raiz
 chown -R username:root *
