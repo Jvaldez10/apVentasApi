@@ -33,13 +33,19 @@ namespace sistema_venta_erp.Utilidades
             await FileStreamFs.DisposeAsync();
             return nombreFile + extencion;
         }
-        public string GetFileToBase64(string ubicacion)
+        public string GetFileToBase64(string ubicacion, string nombreArchivo)
         {
+            var format = this.decifrarFormato(nombreArchivo);
             var ruta = PathTemporal + ubicacion;
             var path = Path.Combine(_webHostEnvironment.WebRootPath, ruta);
             Byte[] bytes = File.ReadAllBytes(path);
             String base64 = Convert.ToBase64String(bytes);
-            return base64;
+            return $"data:image/{format};base64,{base64}";
+        }
+        private string decifrarFormato(string nombreArchivo)
+        {
+            var dividir = nombreArchivo.Split('.');
+            return dividir[1];
         }
     }
 }

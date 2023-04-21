@@ -31,7 +31,7 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"NivelRepositorio/ObtenerTodoNivelRepositorio(): Inizialize...");
 
             var sql = this._vNivelConsulta.ObtenerTodo();
-            var resultado = await this._dBContext.VNivel.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vnivel.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"NivelRepositorio/ObtenerTodoNivelRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -39,7 +39,7 @@ namespace sistema_venta_erp.Repositorio
         {
             this._logger.LogWarning($"NivelRepositorio/ObtenerUnoAlmacenRepositorio({id}): Inizialize...");
             var sql = this._vNivelConsulta.ObtenerUno(id);
-            var resultado = await this._dBContext.VNivel.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vnivel.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"{sql}");
             this._logger.LogWarning($"NivelRepositorio/ObtenerUnoAlmacenRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;

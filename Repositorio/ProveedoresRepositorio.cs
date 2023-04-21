@@ -29,105 +29,38 @@ namespace sistema_venta_erp.Repositorio
         public async Task<List<VProveedor>> ObtenerTodoProveedoresRepositorio()
         {
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerTodoProveedoresRepositorio(): Inizialize...");
-
-            var sql = this._proveedoresConsulta.ObtenerTodo();
-            var resultado = await this._dBContext.VProveedor.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vproveedor.ToListAsync();
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerTodoProveedoresRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<List<VProveedor>> ObtenerUnoproveedorRepositorio(int id)
         {
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerUnoproveedorRepositorio({id}): Inizialize...");
-            var sql = this._proveedoresConsulta.ObtenerUno(id);
-            var resultado = await this._dBContext.VProveedor.FromSqlRaw(sql).ToListAsync();
-            this._logger.LogWarning($"{sql}");
+            var resultado = await this._dBContext.vproveedor.Where(x => x.id == id).ToListAsync();
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerUnoproveedorRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
-        public async Task<int> InsertarProveedoresRepositorio(
-            string codigoProveedor,
-            string nombreProveedor,
-            string dirrecion,
-            decimal credito,
-            int telefono,
-            int planCuentaId
-        )
+        public async Task<VProveedor> InsertarProveedoresRepositorio(VProveedor vProveedor)
         {
-            this._logger.LogWarning($"ProveedoresRepositorio/InsertarProveedoresRepositorio({codigoProveedor},{nombreProveedor}, {dirrecion},{credito},{telefono}): Inizialize...");
-
-            var sql = this._proveedoresConsulta.InsertarUno(
-                codigoProveedor,
-                nombreProveedor,
-                dirrecion,
-                credito,
-                telefono,
-                planCuentaId
-            );
-            var ejecutar = await this._dBContext.Database.ExecuteSqlRawAsync(sql);
-            if (ejecutar > 0)
-            {
-                this._logger.LogWarning($"ProveedoresRepositorio/InsertarProveedoresRepositorio SUCCESS => {ejecutar} columnas afectadas");
-                return ejecutar;
-            }
-            else
-            {
-                this._logger.LogCritical($"ProveedoresRepositorio/InsertarProveedoresRepositorio ERROR => {sql}");
-                return ejecutar;
-            }
+            this._logger.LogWarning($"ProveedoresRepositorio/InsertarProveedoresRepositorio({JsonConvert.SerializeObject(vProveedor, Formatting.Indented)}): Inizialize...");
+            var insert = await this._dBContext.vproveedor.AddAsync(vProveedor);
+            await this._dBContext.SaveChangesAsync();
+            return vProveedor;
         }
-        public async Task<int> ModificarProveedoresRepositorio(
-            int id,
-            string codigoProveedor,
-            string nombreProveedor,
-            string dirrecion,
-            decimal credito,
-            int telefono,
-            int planCuentaId
-        )
+        public async Task<VProveedor> ModificarProveedoresRepositorio(VProveedor vProveedor)
         {
-            this._logger.LogWarning($"ProveedoresRepositorio/ModificarProveedoresRepositorio({id},{codigoProveedor},{nombreProveedor}, {dirrecion},{credito},{telefono}): Inizialize...");
+            this._logger.LogWarning($"ProveedoresRepositorio/ModificarProveedoresRepositorio({JsonConvert.SerializeObject(vProveedor, Formatting.Indented)}): Inizialize...");
 
-            var sql = this._proveedoresConsulta.ModificarUno(
-                id,
-                codigoProveedor,
-                nombreProveedor,
-                dirrecion,
-                credito,
-                telefono,
-                planCuentaId
-            );
-            var ejecutar = await this._dBContext.Database.ExecuteSqlRawAsync(sql);
-            if (ejecutar > 0)
-            {
-                this._logger.LogWarning($"ProveedoresRepositorio/ModificarProveedoresRepositorio SUCCESS => {ejecutar} columnas afectadas");
-                return ejecutar;
-            }
-            else
-            {
-                this._logger.LogCritical($"ProveedoresRepositorio/ModificarProveedoresRepositorio ERROR => {sql}");
-                return ejecutar;
-            }
+            this._dBContext.vproveedor.Update(vProveedor);
+            await this._dBContext.SaveChangesAsync();
+            return vProveedor;
         }
-        public async Task<int> EliminarProveedoresRepositorio(
-                    int id
-                )
+        public async Task<int> EliminarProveedoresRepositorio(int id)
         {
-            this._logger.LogWarning($"ProveedoresRepositorio/DeleteProveedoresRepositorio({id}): Inizialize...");
-
-            var sql = this._proveedoresConsulta.EliminarUno(
-                id
-            );
-            var ejecutar = await this._dBContext.Database.ExecuteSqlRawAsync(sql);
-            if (ejecutar > 0)
-            {
-                this._logger.LogWarning($"ProveedoresRepositorio/DeleteProveedoresRepositorio SUCCESS => {ejecutar} columnas afectadas");
-                return ejecutar;
-            }
-            else
-            {
-                this._logger.LogCritical($"ProveedoresRepositorio/DeleteProveedoresRepositorio ERROR => {sql}");
-                return ejecutar;
-            }
+            this._logger.LogWarning($"ProveedoresRepositorio/EliminarClasificacionRepositorio({id}): Inizialize...");
+            this._dBContext.vproveedor.Remove(new VProveedor { id = id });
+            await this._dBContext.SaveChangesAsync();
+            return id;
         }
     }
 }

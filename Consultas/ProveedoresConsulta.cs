@@ -7,35 +7,6 @@ namespace sistema_venta_erp.Consultas
 {
     public class ProveedoresConsulta
     {
-        public string ObtenerTodo()
-        {
-            return @$"
-                SELECT
-                    id,
-                    codigoProveedor,
-                    nombreProveedor,
-                    dirrecion,
-                    credito,
-                    telefono,
-                    planCuentaId
-                FROM vproveedores;
-            ";
-        }
-        public string ObtenerUno(int id)
-        {
-            return @$"
-                SELECT
-                    id,
-                    codigoProveedor,
-                    nombreProveedor,
-                    dirrecion,
-                    credito,
-                    telefono,
-                    planCuentaId
-                FROM vproveedores
-                WHERE id='{id}';
-            ";
-        }
         public string InsertarUno(
             string codigoProveedor,
             string nombreProveedor,

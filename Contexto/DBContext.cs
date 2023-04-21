@@ -13,19 +13,19 @@ namespace sistema_venta_erp.Contexto
         {
 
         }
-        public virtual DbSet<VAlmacen> VAlmacen { get; set; }
-        public virtual DbSet<VCategoria> VCategoria { get; set; }
-        public virtual DbSet<VPlanCuentas> VPlanCuentas { get; set; }
+        public virtual DbSet<VAlmacen> valmacen { get; set; }
+        public virtual DbSet<VCategoria> vcategoria { get; set; }
+        public virtual DbSet<VPlanCuentas> vplancuenta { get; set; }
         public virtual DbSet<VProducto> vproducto { get; set; }
-        public virtual DbSet<VProveedor> VProveedor { get; set; }
-        public virtual DbSet<VUtilidad> VUtilidad { get; set; }
-        public virtual DbSet<VPlanClientes> VPlanClientes { get; set; }
-        public virtual DbSet<VPlanProductos> VPlanProductos { get; set; }
-        public virtual DbSet<VPlanProveedores> VPlanProveedores { get; set; }
-        public virtual DbSet<VNivel> VNivel { get; set; }
-        public virtual DbSet<VMoneda> VMoneda { get; set; }
-        public virtual DbSet<VCliente> VCliente { get; set; }
-        public virtual DbSet<VClasificacion> VClasificacion { get; set; }
-        public virtual DbSet<VProductoImagenes> VProductoImagenes { get; set; }
+        public virtual DbSet<VProveedor> vproveedor { get; set; }
+        public virtual DbSet<VUtilidad> vutilidad { get; set; }
+        public virtual DbSet<VPlanClientes> vplanclientes { get; set; }
+        public virtual DbSet<VPlanProductos> vplanproductos { get; set; }
+        public virtual DbSet<VPlanProveedores> vplanproveedores { get; set; }
+        public virtual DbSet<VNivel> vnivel { get; set; }
+        public virtual DbSet<VMoneda> vmoneda { get; set; }
+        public virtual DbSet<VCliente> vcliente { get; set; }
+        public virtual DbSet<VClasificacion> vclasificacion { get; set; }
+        public virtual DbSet<VProductoImagenes> vproductoimagenes { get; set; }
     }
 }

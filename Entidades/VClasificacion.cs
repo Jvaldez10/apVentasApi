@@ -13,5 +13,6 @@ namespace sistema_venta_erp.Entidades
         public string nombreClasificacion { get; set; }
         public string caracteristicas { get; set; }
         public int clasificacionId { get; set; }
+        public int vtipoclasificacionId { get; set; } = 1;
     }
 }

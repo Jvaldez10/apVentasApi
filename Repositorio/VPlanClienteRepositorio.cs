@@ -26,28 +26,28 @@ namespace sistema_venta_erp.Repositorio
         public async Task<List<VPlanClientes>> ObtenerTodoPlanClientesRepositorio()
         {
             this._logger.LogWarning($"PlanClientesRepositorio/ObtenerTodoPlanClientesRepositorio(): Inizialize...");
-            var resultado = await this._dBContext.VPlanClientes.ToListAsync();
+            var resultado = await this._dBContext.vplanclientes.ToListAsync();
             this._logger.LogWarning($"PlanClientesRepositorio/ObtenerTodoPlanClientesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VPlanClientes> ObtenerUnoPlanClientesRepositorio(int id)
         {
             this._logger.LogWarning($"PlanClientesRepositorio/ObtenerUnoTodoPlanClientesRepositorio({id}): Inizialize...");
-            var resultado = await this._dBContext.VPlanClientes.FirstAsync(x => x.id == id);
+            var resultado = await this._dBContext.vplanclientes.FirstAsync(x => x.id == id);
             this._logger.LogWarning($"PlanClientesRepositorio/ObtenerUnoTodoPlanClientesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VPlanClientes> InsertarPlanClientesRepositorio(VPlanClientes VPlanClientes)
         {
             this._logger.LogWarning($"PlanClientesRepositorio/InsertarPlanClientesRepositorio({JsonConvert.SerializeObject(VPlanClientes, Formatting.Indented)}): Inizialize...");
-            var insert = await this._dBContext.VPlanClientes.AddAsync(VPlanClientes);
+            var insert = await this._dBContext.vplanclientes.AddAsync(VPlanClientes);
             await this._dBContext.SaveChangesAsync();
             return VPlanClientes;
         }
         public async Task<VPlanClientes> ModificarPlanClientesRepositorio(VPlanClientes VPlanClientes)
         {
             this._logger.LogWarning($"PlanClientesRepositorio/ModificarPlanClientesRepositorio({JsonConvert.SerializeObject(VPlanClientes, Formatting.Indented)}): Inizialize...");
-            var sql = this._dBContext.VPlanClientes.Update(VPlanClientes);
+            var sql = this._dBContext.vplanclientes.Update(VPlanClientes);
             await this._dBContext.SaveChangesAsync();
             return VPlanClientes;
         }

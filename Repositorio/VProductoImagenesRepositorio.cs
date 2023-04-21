@@ -25,35 +25,35 @@ namespace sistema_venta_erp.Repositorio
         public async Task<List<VProductoImagenes>> ObtenerTodoProductoImagenesRepositorio()
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoProductoImagenesRepositorio(): Inizialize...");
-            var resultado = await this.dBContext.VProductoImagenes.ToListAsync();
+            var resultado = await this.dBContext.vproductoimagenes.ToListAsync();
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoProductoImagenesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VProductoImagenes> ObtenerUnoProductoImagenesRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoProductoImagenesRepositorio({id}): Inizialize...");
-            var resultado = await this.dBContext.VProductoImagenes.FirstOrDefaultAsync(x => x.id == id);
+            var resultado = await this.dBContext.vproductoimagenes.FirstOrDefaultAsync(x => x.id == id);
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoProductoImagenesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VProductoImagenes> InsertarProductoImagenesRepositorio(VProductoImagenes VProductoImagenes)
         {
             this._logger.LogWarning($"VClienteRepositorio/InsertarProductoImagenesRepositorio({JsonConvert.SerializeObject(VProductoImagenes, Formatting.Indented)}): Inizialize...");
-            var insert = await this.dBContext.VProductoImagenes.AddAsync(VProductoImagenes);
+            var insert = await this.dBContext.vproductoimagenes.AddAsync(VProductoImagenes);
             await this.dBContext.SaveChangesAsync();
             return VProductoImagenes;
         }
         public async Task<VProductoImagenes> ModificarProductoImagenesRepositorio(VProductoImagenes VProductoImagenes)
         {
             this._logger.LogWarning($"VClienteRepositorio/ModificarProductoImagenesRepositorio({JsonConvert.SerializeObject(VProductoImagenes, Formatting.Indented)}): Inizialize...");
-            this.dBContext.VProductoImagenes.Update(VProductoImagenes);
+            this.dBContext.vproductoimagenes.Update(VProductoImagenes);
             await this.dBContext.SaveChangesAsync();
             return VProductoImagenes;
         }
         public async Task<int> EliminarProductoImagenesRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/DeleteProductoImagenesRepositorio({id}): Inizialize...");
-            this.dBContext.VProductoImagenes.Remove(new VProductoImagenes { id = id });
+            this.dBContext.vproductoimagenes.Remove(new VProductoImagenes { id = id });
             await this.dBContext.SaveChangesAsync();
             return id;
         }

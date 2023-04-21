@@ -128,7 +128,7 @@ namespace sistema_venta_erp.Modulos
             var base64Imagenes = new List<string>();
             foreach (var imagen in imagenes)
             {
-                base64Imagenes.Add(this._filesConvert.GetFileToBase64(imagen.nombre));
+                base64Imagenes.Add(this._filesConvert.GetFileToBase64(imagen.nombre, imagen.nombre));
             }
             var producto = new ProductoDto
             {
@@ -158,7 +158,7 @@ namespace sistema_venta_erp.Modulos
             var resultado = new
             {
                 producto = producto,
-                imagenes = imagenes,
+                imagenes = base64Imagenes,
                 proveedores = proveedores,
                 categorias = categorias
             };

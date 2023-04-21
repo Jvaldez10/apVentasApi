@@ -32,7 +32,7 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasRepositorio(): Inizialize...");
 
             var sql = this._vPlanCuentaConsulta.ObtenerTodo();
-            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -41,7 +41,7 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasPorPadreIdRepositorio(): Inizialize...");
 
             var sql = this._vPlanCuentaConsulta.ObtenerTodoPorPadreID(VPlanCuentaId);
-            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerTodoPlanCuentasPorPadreIdRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -51,7 +51,7 @@ namespace sistema_venta_erp.Repositorio
 
             var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlan(nivel);
             //this._logger.LogWarning($"{sql}");
-            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -61,7 +61,7 @@ namespace sistema_venta_erp.Repositorio
 
             var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlanPadre(VPlanCuentaId,nivel);
             this._logger.LogWarning($"{sql}");
-            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanPadreIdRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -69,7 +69,7 @@ namespace sistema_venta_erp.Repositorio
         {
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio({id}): Inizialize...");
             var sql = this._vPlanCuentaConsulta.ObtenerUno(id);
-            var resultado = await this._dBContext.VPlanCuentas.FromSqlRaw(sql).ToListAsync();
+            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"{sql}");
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
