@@ -21,4 +21,4 @@ var startup = new Startup(builder.Configuration);
 startup.ConfigureServices(builder.Services); // calling ConfigureServices method
 var app = builder.Build();
 startup.Configure(app, app.Environment); // calling Configure method
-app.Run("http://localhost:4000");
+app.Run("http://localhost:3000");
