@@ -31,8 +31,7 @@ namespace sistema_venta_erp.Modulos
         }
         public async Task<VPlanCuentas> ObtenerUno(int id)
         {
-            var plancuentas = await this._vPlanCuentasRepositorios.ObtenerUnoRepositorio(id);
-            var plancuenta = plancuentas.FirstOrDefault();
+            var plancuenta = await this._vPlanCuentasRepositorios.ObtenerUnoRepositorio(id);
             return plancuenta;
         }
         public async Task<GeneracionCodigo> CreateUno(int nivel, int padre)

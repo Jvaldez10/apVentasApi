@@ -55,10 +55,14 @@ namespace sistema_venta_erp.Modulos
         }
         public async Task<object> CrearUno()
         {
-            var clasificacion = await this._vClasificacionRepositorio.ObtenerTodoClasificacionRepositorio();
+            var clasificaciones = await this._vClasificacionRepositorio.ObtenerTodoClasificacionRepositorio();
             var resultado = new
             {
-                clasificacion = clasificacion
+                clasificaciones = clasificaciones.Select(x => new
+                {
+                    id = x.id,
+                    nombreClasificacion = x.nombreClasificacion
+                }),
             };
             return resultado;
         }
@@ -81,10 +85,16 @@ namespace sistema_venta_erp.Modulos
         }
         public async Task<object> EditarUno(int id)
         {
+            var clasificaciones = await this.ObtenerTodo();
+            var clasificacionPadre = clasificaciones.Where(x => x.id == id).FirstOrDefault();
             var resultado = new
             {
-                clasificaciones = await this.ObtenerTodo(),
-                clasificacion = await this._vClasificacionRepositorio.ObtenerUnoClasificacionRepositorio(id)
+                clasificaciones = clasificaciones.Select(x => new
+                {
+                    id = x.id,
+                    nombreClasificacion = x.nombreClasificacion
+                }),
+                clasificacion = clasificacionPadre
             };
             return resultado;
         }

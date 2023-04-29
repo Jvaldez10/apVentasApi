@@ -47,5 +47,29 @@ namespace sistema_venta_erp.Utilidades
             var dividir = nombreArchivo.Split('.');
             return dividir[1];
         }
+        public async Task<bool> DeleteFile(string NameFile)
+        {
+            var path = PathTemporal + NameFile;
+            string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, path);
+            if (File.Exists(serverFolder))
+            {
+                try
+                {
+                    this._logger.LogWarning("DeleteFile Inizialize");
+                    await Task.Run(() => File.Delete(serverFolder));
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    this._logger.LogWarning($"DeleteFileERROR {e}");
+                    return false;
+                }
+            }
+            else
+            {
+                this._logger.LogWarning($"DeleteFile ARCHIVO NO EXISTE {NameFile}");
+                return false;
+            }
+        }
     }
 }

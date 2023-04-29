@@ -138,5 +138,33 @@ namespace sistema_venta_erp.Controllers
                 return result;
             }
         }
+        [HttpPut("update/{id}")]
+        public async Task<Response> Update(int id, [FromBody] ProductoDto productoDto)
+        {
+            this._logger.LogWarning($"{Request.Method}{Request.Path} Update({id}) Inizialize ...");
+            try
+            {
+                var clientes = await this._productoModule.Update(id,productoDto);
+                var resultado = new Response
+                {
+                    status = 1,
+                    message = "Producto modificado correctamente",
+                    data = clientes
+                };
+                this._logger.LogWarning($"Update() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+                return resultado;
+            }
+            catch (System.Exception e)
+            {
+                var result = new Response
+                {
+                    status = 0,
+                    message = $"Ocurrio un error inesperado",
+                    data = null
+                };
+                this._logger.LogError($"Update() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
+                return result;
+            }
+        }
     }
 }

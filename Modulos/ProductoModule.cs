@@ -95,21 +95,8 @@ namespace sistema_venta_erp.Modulos
                    unidadMedida = productoDto.unidadMedida
                }
             );
-            int i = 0;
-            foreach (var data in productoDto.imagenes)
-            {
-                var formatBase64 = this._letras.NombreFormatoBase64(data);
-                var base64 = this._letras.DataBase64(data);
-                var path = await this._filesConvert.GuardarFileToBase64(base64, $"{productoDto.nombreProducto}{DateTime.Now.ToString("HHmmss")}{i}", $".{formatBase64}");
-                await this._vProductoImagenesRepositorio.InsertarProductoImagenesRepositorio(
-                    new VProductoImagenes
-                    {
-                        nombre = path,
-                        VproductoId = insert.id
-                    }
-                );
-                i++;
-            }
+            //insert iamgenes
+            await this.InsertarImagenesDataBase(productoDto, insert.id);
             if (insert.id > 0)
             {
                 return "Resgistrado correctamente";
@@ -163,6 +150,83 @@ namespace sistema_venta_erp.Modulos
                 categorias = categorias
             };
             return resultado;
+        }
+        public async Task<string> Update(int id, ProductoDto productoDto)
+        {
+            var update = await this._vProductoRepositorio.ModificarProductoRepositorio(
+               new VProducto
+               {
+                   id = id,
+                   codigoProducto = productoDto.codigoProducto,
+                   fechaVencimiento = productoDto.fechaVencimiento,
+                   lote = productoDto.lote,
+                   nombreProducto = productoDto.nombreProducto,
+                   precioCompra = productoDto.precioCompra,
+                   precioVentaMin = productoDto.precioVentaMin,
+                   precioVentaMax = productoDto.precioVentaMax,
+                   stockActual = productoDto.stockActual,
+                   stockMinimo = productoDto.stockMinimo,
+                   cantidad = productoDto.cantidad,
+                   VClasificacionId = productoDto.clasificacionId,
+                   VProveedoreId = productoDto.proveedoreId,
+                   utilidadMax = productoDto.utilidadMax,
+                   utilidadMin = productoDto.utilidadMin,
+                   codigoBarra = productoDto.codigoBarra,
+                   unidadMedida = productoDto.unidadMedida
+               }
+            );
+            //eliminar imagenes
+            var archivosEliminar = await this._vProductoImagenesRepositorio.ObtenerTodoProductoImagenesRepositorio();
+            var archivos = archivosEliminar.Where(x => x.VproductoId == id).ToList();
+            await this.BorrarImagenesDataBase(archivos);
+            await this.BorrarArchivoFile(archivos);
+            //insert iamgenes
+            await this.InsertarImagenesDataBase(productoDto, id);
+            if (update.id > 0)
+            {
+                return "Resgistrado correctamente";
+            }
+            else
+            {
+                return "Ocurrio un error";
+            }
+        }
+        /*otros*/
+        private async Task<bool> BorrarImagenesDataBase(List<VProductoImagenes> vProductoImagenes)
+        {
+            foreach (var imagen in vProductoImagenes)
+            {
+                await this._vProductoImagenesRepositorio.EliminarProductoImagenesRepositorio(imagen.id);
+            }
+            return true;
+        }
+        private async Task<bool> BorrarArchivoFile(List<VProductoImagenes> vProductoImagenes)
+        {
+            foreach (var imagen in vProductoImagenes)
+            {
+                await this._filesConvert.DeleteFile(imagen.nombre);
+            }
+            return true;
+        }
+        private async Task<bool> InsertarImagenesDataBase(ProductoDto productoDto, int id)
+        {
+            int i = 0;
+            foreach (var data in productoDto.imagenes)
+            {
+                var formatBase64 = this._letras.NombreFormatoBase64(data);
+                var base64 = this._letras.DataBase64(data);
+                var path = await this._filesConvert.GuardarFileToBase64(base64, $"{productoDto.nombreProducto}{DateTime.Now.ToString("HHmmss")}{i}", $".{formatBase64}");
+                //insert imagenes
+                await this._vProductoImagenesRepositorio.InsertarProductoImagenesRepositorio(
+                    new VProductoImagenes
+                    {
+                        nombre = path,
+                        VproductoId = id
+                    }
+                );
+                i++;
+            }
+            return true;
         }
     }
 }

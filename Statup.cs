@@ -30,7 +30,7 @@ namespace sistema_venta_erp
             {
                 options.UseMySql(mysqlConnect, ServerVersion.AutoDetect(mysqlConnect));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
+            }, ServiceLifetime.Transient);
 
             this.ServicesTransitorioModulos(services);
             this.ServicesTransitorioRepositorio(services);
@@ -54,7 +54,7 @@ namespace sistema_venta_erp
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseAuthorization();
+            //app.UseAuthorization();
             app.UseCors(
                 options =>
                 {
@@ -83,6 +83,9 @@ namespace sistema_venta_erp
             services.AddTransient<ClienteModule>();
             services.AddTransient<ClasificacionModule>();
             services.AddTransient<ProductoModule>();
+            services.AddTransient<AsientoModule>();
+            services.AddTransient<TipoAsientoModule>();
+            services.AddTransient<AsientoPlanCuentaModule>();
         }
         private void ServicesTransitorioRepositorio(IServiceCollection services)
         {
@@ -98,6 +101,12 @@ namespace sistema_venta_erp
             services.AddTransient<VClasificacionRepositorio>();
             services.AddTransient<VProductoRepositorio>();
             services.AddTransient<VProductoImagenesRepositorio>();
+            services.AddTransient<TipoAsientoRespositorio>();
+            services.AddTransient<AsientoRespositorio>();
+            services.AddTransient<AsientoPlanCuentaRespositorio>();
+            services.AddTransient<ConfiguracionPlanCuentaRepositorio>();
+            services.AddTransient<TipoClasificacionRepositorio>();
+            services.AddTransient<GeneralRepositorio>();
         }
         private void ServicesTransitorioConsulta(IServiceCollection services)
         {
@@ -109,6 +118,7 @@ namespace sistema_venta_erp
             services.AddTransient<VPlanProveedoresConsulta>();
             services.AddTransient<VNivelConsulta>();
             services.AddTransient<VMonedaConsulta>();
+            services.AddTransient<VentasConsulta>();
         }
         private void ServicesUtils(IServiceCollection services)
         {

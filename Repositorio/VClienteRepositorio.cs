@@ -25,14 +25,14 @@ namespace sistema_venta_erp.Repositorio
         public async Task<List<VCliente>> ObtenerTodoClientesRepositorio()
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoClientesRepositorio(): Inizialize...");
-            var resultado = await this._dBContext.vcliente.ToListAsync();
+            var resultado = await this._dBContext.vclientes.ToListAsync();
             this._logger.LogWarning($"VClienteRepositorio/ObtenerTodoClientesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
         public async Task<VCliente> ObtenerUnoClientesRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoClientesRepositorio({id}): Inizialize...");
-            var resultado = await this._dBContext.vcliente.FirstAsync(x => x.id == id);
+            var resultado = await this._dBContext.vclientes.FirstAsync(x => x.id == id);
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoClientesRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -41,21 +41,21 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"VClienteRepositorio/InsertarClientesRepositorio({JsonConvert.SerializeObject(vCliente, Formatting.Indented)}): Inizialize...");
             var update =new VCliente();
             update= vCliente;
-            var insert = await this._dBContext.vcliente.AddAsync(update);
+            var insert = await this._dBContext.vclientes.AddAsync(update);
             await this._dBContext.SaveChangesAsync();
             return vCliente;
         }
         public async Task<VCliente> ModificarClientesRepositorio(VCliente vCliente)
         {
             this._logger.LogWarning($"VClienteRepositorio/ModificarClientesRepositorio({JsonConvert.SerializeObject(vCliente, Formatting.Indented)}): Inizialize...");
-            this._dBContext.vcliente.Update(vCliente);
+            this._dBContext.vclientes.Update(vCliente);
             await this._dBContext.SaveChangesAsync();
             return vCliente;
         }
         public async Task<int> EliminarClientesRepositorio(int id)
         {
             this._logger.LogWarning($"VClienteRepositorio/DeleteClientesRepositorio({id}): Inizialize...");
-            this._dBContext.vcliente.Remove(new VCliente { id = id });
+            this._dBContext.vclientes.Remove(new VCliente { id = id });
             await this._dBContext.SaveChangesAsync();
             return id;
         }

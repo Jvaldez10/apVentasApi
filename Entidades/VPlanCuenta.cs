@@ -11,7 +11,7 @@ namespace sistema_venta_erp.Entidades
         public string nombreCuenta { get; set; }
         public string moneda { get; set; }
         public decimal valor { get; set; }
-        public string CodigoIdentificador { get; set; }
+        public string codigoIdentificador { get; set; }
         public int nivel { get; set; }
         public decimal debe { get; set; }
         public decimal haber { get; set; }

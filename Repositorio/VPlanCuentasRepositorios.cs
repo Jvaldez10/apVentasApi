@@ -59,18 +59,16 @@ namespace sistema_venta_erp.Repositorio
         {
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanPadreIdRepositorio({VPlanCuentaId},{nivel}): Inizialize...");
 
-            var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlanPadre(VPlanCuentaId,nivel);
+            var sql = this._vPlanCuentaConsulta.ObtenerUltimoPlanPadre(VPlanCuentaId, nivel);
             this._logger.LogWarning($"{sql}");
             var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUltimoPlanPadreIdRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
-        public async Task<List<VPlanCuentas>> ObtenerUnoRepositorio(int id)
+        public async Task<VPlanCuentas> ObtenerUnoRepositorio(int id)
         {
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio({id}): Inizialize...");
-            var sql = this._vPlanCuentaConsulta.ObtenerUno(id);
-            var resultado = await this._dBContext.vplancuenta.FromSqlRaw(sql).ToListAsync();
-            this._logger.LogWarning($"{sql}");
+            var resultado = await this._dBContext.vplancuenta.Where(x=>x.id==id).FirstOrDefaultAsync();
             this._logger.LogWarning($"PlanCuentasRepositorio/ObtenerUnoRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
@@ -150,6 +148,13 @@ namespace sistema_venta_erp.Repositorio
                 return ejecutar;
             }
         }
+        public async Task<VPlanCuentas> ModificarPlanCuentaRepositorio(VPlanCuentas vPlanCuentas)
+        {
+            this._logger.LogWarning($"VClienteRepositorio/ModificarPlanCuentaRepositorio({JsonConvert.SerializeObject(vPlanCuentas, Formatting.Indented)}): Inizialize...");
+            this._dBContext.vplancuenta.Update(vPlanCuentas);
+            await this._dBContext.SaveChangesAsync();
+            return vPlanCuentas;
+        }
         public async Task<int> EliminarPlanCuentasRepositorio(
                 int id
             )
@@ -171,5 +176,6 @@ namespace sistema_venta_erp.Repositorio
                 return ejecutar;
             }
         }
+
     }
 }

@@ -3,3 +3,7 @@
 ## permisos de escritura root sobre la raiz
 chown -R username:root *
 
+#registrar servicio
+sudo systemctl enable movie.service
+sudo systemctl start movie.service
+sudo systemctl status movie.service

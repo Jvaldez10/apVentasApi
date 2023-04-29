@@ -16,7 +16,7 @@ namespace sistema_venta_erp.Entidades
         public string correoElectronico { get; set; }
         public string dirrecion { get; set; }
         public string telefono { get; set; }
-        public decimal lineaCredito { get; set; }
+        public decimal credito { get; set; }
         public int PlanCuentaId { get; set; }
     }
 }
