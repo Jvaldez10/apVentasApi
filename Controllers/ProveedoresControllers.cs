@@ -86,7 +86,7 @@ namespace sistema_venta_erp.Controllers
                 var resultado = new Response
                 {
                     status = 1,
-                    message = "Todo proveedor",
+                    message = "Proveedore nuevo",
                     data = data
                 };
                 this._logger.LogWarning($"ObtenerUno() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");

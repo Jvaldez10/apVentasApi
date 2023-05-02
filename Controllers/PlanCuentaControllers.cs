@@ -53,17 +53,17 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("create")]
-        public async Task<Response> CreateUno([FromQuery] int nivel,int padre )
+        public async Task<Response> CreateUno([FromQuery] int nivel, int padre)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} CreateUno({nivel},{padre}) Inizialize ...");
             try
             {
-                var codigo = await this._planCuentaModulo.CreateUno(nivel,padre);
+                var codigo = await this._planCuentaModulo.CreateUno(nivel, padre);
                 var resultado = new Response
                 {
                     status = 1,
                     message = "Create nivel",
-                    data =  codigo
+                    data = codigo
                 };
                 this._logger.LogWarning($"CreateUno() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -82,6 +82,34 @@ namespace sistema_venta_erp.Controllers
         }
         [HttpGet("{id}")]
         public async Task<Response> ObtenerUno(int id)
+        {
+            this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
+            try
+            {
+                var proveedor = await this._planCuentaModulo.ObtenerUno(id);
+                var resultado = new Response
+                {
+                    status = 1,
+                    message = "Todo proveedor",
+                    data = proveedor
+                };
+                this._logger.LogWarning($"ObtenerUno() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+                return resultado;
+            }
+            catch (System.Exception e)
+            {
+                var result = new Response
+                {
+                    status = 0,
+                    message = $"Ocurrio un error inesperado",
+                    data = null
+                };
+                this._logger.LogError($"OBtenerUno() ERROR=> {JsonConvert.SerializeObject(e, Formatting.Indented)}");
+                return result;
+            }
+        }
+        [HttpGet("editar/{id}")]
+        public async Task<Response> EditarUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
             try

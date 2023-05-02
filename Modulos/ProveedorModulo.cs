@@ -14,22 +14,28 @@ namespace sistema_venta_erp.Modulos
         private readonly ProveedoresRepositorio _proveedoresRepositorio;
         private readonly PlanProveedoresModulo _planProveedoresModulo;
         private readonly PlanCuentaModulo _planCuentaModulo;
+        private readonly VPlanCuentasRepositorios _vPlanCuentasRepositorios;
         private readonly MonedaModule _monedaModule;
         private readonly VPlanProveedoresRepositorio _vPlanProveedoresRepositorio;
+        private readonly ConfiguracionPlanCuentaRepositorio _configuracionPlanCuentaRepositorio;
 
         public ProveedoresModulo(
             ProveedoresRepositorio proveedoresRepositorio,
             PlanProveedoresModulo planProveedoresModulo,
             PlanCuentaModulo planCuentaModulo,
+            VPlanCuentasRepositorios vPlanCuentasRepositorios,
             MonedaModule monedaModule,
-            VPlanProveedoresRepositorio vPlanProveedoresRepositorio
+            VPlanProveedoresRepositorio vPlanProveedoresRepositorio,
+            ConfiguracionPlanCuentaRepositorio configuracionPlanCuentaRepositorio
         )
         {
             this._proveedoresRepositorio = proveedoresRepositorio;
             this._planProveedoresModulo = planProveedoresModulo;
             this._planCuentaModulo = planCuentaModulo;
+            this._vPlanCuentasRepositorios = vPlanCuentasRepositorios;
             this._monedaModule = monedaModule;
             this._vPlanProveedoresRepositorio = vPlanProveedoresRepositorio;
+            this._configuracionPlanCuentaRepositorio = configuracionPlanCuentaRepositorio;
         }
         public async Task<List<VProveedor>> ObtenerTodo()
         {
@@ -44,9 +50,6 @@ namespace sistema_venta_erp.Modulos
         public async Task<CreateDto> CrearUno()
         {
             var proveedores = await this._proveedoresRepositorio.ObtenerTodoProveedoresRepositorio();
-            var monedas = await this._monedaModule.ObtenerTodo();
-            int planId = 5; // DATA QUEMADA
-            var planCuentas = await this._planCuentaModulo.ObtenerTodoPorVPlanCuentaId(planId);
             var codigo = $"prov-00";
             if (proveedores.Count > 0)
             {
@@ -56,42 +59,32 @@ namespace sistema_venta_erp.Modulos
             var resultado = new CreateDto
             {
                 codigo = codigo,
-                monedas = monedas,
-                planCuentas = planCuentas,
             };
             return resultado;
         }
         public async Task<string> InsertarUno(ProveedorDto proveedorDto)
         {
-
-            var proveedor = await this._planCuentaModulo.ObtenerUno(proveedorDto.planCuentaId);
-            var ultimoProveedor = await this._planProveedoresModulo.ObtenerUltimo(proveedorDto.planCuentaId);
-            ///si no existe
-            var codigoIdentificador = 1;
-            if (ultimoProveedor != null)
-            {
-                codigoIdentificador = Convert.ToInt32(ultimoProveedor.CodigoIdentificador) + 1;
-            }
-            var nuevoPlanProveedor = await this.InsertarPlanProveedor(
-                proveedorDto.nombreProveedor,
-                proveedorDto.moneda,
-                proveedorDto.planCuentaId,
-                proveedor.nivel,
-                proveedor.codigo,
-                codigoIdentificador.ToString()
-            );
-            var planProveedor = await this._planProveedoresModulo.ObtenerUltimo(proveedorDto.planCuentaId);
             var insertar = await this._proveedoresRepositorio.InsertarProveedoresRepositorio(
                 new VProveedor
                 {
                     codigoProveedor = proveedorDto.codigoProveedor,
-                    credito = proveedorDto.credito,
+                    contacto = proveedorDto.contacto,
                     dirrecion = proveedorDto.dirrecion,
                     id = proveedorDto.id,
                     nombreProveedor = proveedorDto.nombreProveedor,
                     planCuentaId = proveedorDto.planCuentaId,
                     telefono = proveedorDto.telefono.ToString()
                 }
+            );
+            var planCuenta = await this.obtenerConfigPlanProveedores();
+            var obtenerConfigProveedor = await this._configuracionPlanCuentaRepositorio.ObtenerUnoConfiguracionPlanCuentaRepositorio(1);
+            var nuevoPlanProveedor = await this.InsertarPlanProveedor(
+                proveedorDto.nombreProveedor,
+                1,
+                planCuenta.id,
+                0,
+                planCuenta.codigo,
+                insertar.id.ToString()
             );
             return $"Proveedor registrado correctamente";
         }
@@ -109,13 +102,12 @@ namespace sistema_venta_erp.Modulos
                 proveedor = new
                 {
                     codigoProveedor = proveedor.codigoProveedor,
-                    credito = proveedor.credito,
+                    contacto = proveedor.contacto,
                     dirrecion = proveedor.dirrecion,
                     id = proveedor.id,
                     nombreProveedor = proveedor.nombreProveedor,
                     planCuentaId = proveedor.planCuentaId,
                     telefono = proveedor.telefono,
-                    moneda = planProveedor.moneda
                 },
                 monedas = monedas,
                 planCuentas = planCuentas,
@@ -137,7 +129,7 @@ namespace sistema_venta_erp.Modulos
                 codigoIdentificador = identificador,
                 debe = 0,
                 haber = 0,
-                moneda = moneda.ToString(),
+                moneda = "1",
                 nivel = nivel + 1,
                 nombreCuenta = nombre,
                 valor = 0,
@@ -159,7 +151,7 @@ namespace sistema_venta_erp.Modulos
             }
             var nuevoPlanProveedor = await this.InsertarPlanProveedor(
                 proveedorDto.nombreProveedor,
-                proveedorDto.moneda,
+                1,
                 proveedorDto.planCuentaId,
                 proveedor.nivel,
                 proveedor.codigo,
@@ -170,7 +162,7 @@ namespace sistema_venta_erp.Modulos
                 new VProveedor
                 {
                     codigoProveedor = proveedorDto.codigoProveedor,
-                    credito = proveedorDto.credito,
+                    contacto = proveedorDto.contacto,
                     dirrecion = proveedorDto.dirrecion,
                     id = id,
                     nombreProveedor = proveedorDto.nombreProveedor,
@@ -195,7 +187,14 @@ namespace sistema_venta_erp.Modulos
                 return $"Error no eliminado";
             }
         }
+        private async Task<VPlanCuentas> obtenerConfigPlanProveedores()
+        {
+            var obtenerConfig = await this._configuracionPlanCuentaRepositorio.ObtenerUnoConfiguracionPlanCuentaRepositorio(1);
+            var plancuenta = await this._vPlanCuentasRepositorios.ObtenerUnoRepositorio(obtenerConfig.cuentaProveedores);
+            return plancuenta;
+        }
     }
+
     public class CreateDto
     {
         public string codigo { get; set; }

@@ -11,9 +11,8 @@ namespace sistema_venta_erp.Controllers.Dto
         public string codigoProveedor { get; set; }
         public string nombreProveedor { get; set; }
         public string dirrecion { get; set; }
-        public decimal credito { get; set; }
+        public string contacto { get; set; }
         public int telefono { get; set; }
         public int planCuentaId { get; set; }
-        public int moneda { get; set; }
     }
 }

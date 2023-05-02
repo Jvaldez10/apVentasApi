@@ -14,7 +14,7 @@ namespace sistema_venta_erp.Entidades
         public string nombreProveedor { get; set; }
         public string dirrecion { get; set; }
         public string telefono { get; set; }
-        public decimal credito { get; set; }
+        public string contacto { get; set; }
         public int planCuentaId { get; set; }
     }
 }
