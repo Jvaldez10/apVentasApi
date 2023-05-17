@@ -43,8 +43,7 @@ namespace sistema_venta_erp.Modulos
         }
         public async Task<VProveedor> ObtenerUno(int id)
         {
-            var proveedores = await this._proveedoresRepositorio.ObtenerUnoproveedorRepositorio(id);
-            var proveedor = proveedores.FirstOrDefault();
+            var proveedor = await this._proveedoresRepositorio.ObtenerUnoproveedorRepositorio(id);
             return proveedor;
         }
         public async Task<CreateDto> CrearUno()

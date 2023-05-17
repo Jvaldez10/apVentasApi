@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using sistema_venta_erp.Entidades;
 using sistema_venta_erp.Entidades.Querys;
@@ -35,5 +31,15 @@ namespace sistema_venta_erp.Contexto
         public virtual DbSet<ConfiguracionPlanCuenta> configuracionplancuenta { get; set; }
         public virtual DbSet<General> general { get; set; }
         public virtual DbSet<TipoClasificacion> tipoclasificacion { get; set; }
-    }   
+        public virtual DbSet<OrdenCompra> ordencompra { get; set; }
+        public virtual DbSet<OrdenCompraProducto> ordencompraproducto { get; set; }
+        public virtual DbSet<Movimiento> movimiento { get; set; }
+        public virtual DbSet<EntradaAlmacen> entradaalmacen { get; set; }
+        public virtual DbSet<Venta> venta { get; set; }
+        public virtual DbSet<SalidaAlmacen> salidaalmacen { get; set; }
+        public virtual DbSet<EstadoVenta> estadoventa { get; set; }
+        public virtual DbSet<EstadoOrdenCompra> estadoordencompra { get; set; }
+        public virtual DbSet<VentaProducto> ventaproducto { get; set; }
+        public virtual DbSet<StockAlmacen> stockalmacen { get; set; }
+    }
 }

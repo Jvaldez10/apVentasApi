@@ -117,7 +117,7 @@ namespace sistema_venta_erp.Modulos
             }
             return "Asiento añadido correctamente";
         }
-        private string validador(List<cuentas> cuentas)
+        private string validador(List<cuentasDto> cuentas)
         {
             string resultado = "";
             foreach (var cuenta in cuentas)

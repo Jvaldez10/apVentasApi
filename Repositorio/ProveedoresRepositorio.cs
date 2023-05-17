@@ -33,10 +33,10 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerTodoProveedoresRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
-        public async Task<List<VProveedor>> ObtenerUnoproveedorRepositorio(int id)
+        public async Task<VProveedor> ObtenerUnoproveedorRepositorio(int id)
         {
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerUnoproveedorRepositorio({id}): Inizialize...");
-            var resultado = await this._dBContext.vproveedor.Where(x => x.id == id).ToListAsync();
+            var resultado = await this._dBContext.vproveedor.Where(x => x.id == id).FirstOrDefaultAsync();
             this._logger.LogWarning($"ProveedoresRepositorio/ObtenerUnoproveedorRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }

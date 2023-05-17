@@ -36,6 +36,13 @@ namespace sistema_venta_erp.Repositorio
             this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoAsientoPlanCuentaRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }
+         public async Task<List<AsientoPlanCuenta>> ObtenerUnoAsientoIdRepositorio(int asientoId)
+        {
+            this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoAsientoPlanCuentaRepositorio({asientoId}): Inizialize...");
+            var resultado = await this._dBContext.asientovplancuenta.Where(X=>X.asientoId==asientoId).ToListAsync();
+            this._logger.LogWarning($"VClienteRepositorio/ObtenerUnoTodoAsientoPlanCuentaRepositorio SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
+            return resultado;
+        }
         public async Task<AsientoPlanCuenta> InsertarAsientoPlanCuentaRepositorio(AsientoPlanCuenta asientoPlanCuenta)
         {
             this._logger.LogWarning($"VClienteRepositorio/InsertarAsientoPlanCuentaRepositorio({JsonConvert.SerializeObject(asientoPlanCuenta, Formatting.Indented)}): Inizialize...");

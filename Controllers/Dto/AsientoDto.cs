@@ -11,9 +11,9 @@ namespace sistema_venta_erp.Controllers.Dto
         public string nombreAsiento { get; set; }
         public int tipoAsientoId { get; set; }
         public string nombretipoAsiento { get; set; }
-        public List<cuentas> cuentas { get; set; }
+        public List<cuentasDto> cuentas { get; set; }
     }
-    public class cuentas
+    public class cuentasDto
     {
         public int id { get; set; }
         public string codigo { get; set; }

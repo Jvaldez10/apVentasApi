@@ -86,6 +86,9 @@ namespace sistema_venta_erp
             services.AddTransient<AsientoModule>();
             services.AddTransient<TipoAsientoModule>();
             services.AddTransient<AsientoPlanCuentaModule>();
+            services.AddTransient<OrdenCompraModule>();
+            services.AddTransient<VentaModule>();
+            services.AddTransient<StockAlmacenModule>();
         }
         private void ServicesTransitorioRepositorio(IServiceCollection services)
         {
@@ -107,6 +110,16 @@ namespace sistema_venta_erp
             services.AddTransient<ConfiguracionPlanCuentaRepositorio>();
             services.AddTransient<TipoClasificacionRepositorio>();
             services.AddTransient<GeneralRepositorio>();
+            services.AddTransient<OrdenCompraProductoRepositorio>();
+            services.AddTransient<MovimientoRepositorio>();
+            services.AddTransient<OrdenCompraRepositorio>();
+            services.AddTransient<EntradaAlmacenRespositorio>();
+            services.AddTransient<VentaRespositorio>();
+            services.AddTransient<SalidaAlmacenRepositorio>();
+            services.AddTransient<EstadoOrdenCompraRespositorio>();
+            services.AddTransient<EstadoVentaRepositorio>();
+            services.AddTransient<VentaProductoRepositorio>();
+            services.AddTransient<StockAlmacenRespositorio>();
         }
         private void ServicesTransitorioConsulta(IServiceCollection services)
         {
