@@ -25,13 +25,13 @@ namespace sistema_venta_erp.Controllers
             this._ventaModule = ventaModule;
         }
         [HttpGet]
-        public async Task<Response> Lista()
+        public async Task<Response<object>> Lista()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} Lista() Inizialize ...");
             try
             {
                 var listaVenta = await this._ventaModule.ListaVenta();
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Lista de ventas",
@@ -42,7 +42,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -53,13 +53,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("create")]
-        public async Task<Response> Create()
+        public async Task<Response<object>> Create()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} Create() Inizialize ...");
             try
             {
                 var createVenta = await this._ventaModule.CreateVenta();
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Crear cliente",
@@ -70,7 +70,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error",
@@ -81,13 +81,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost("store")]
-        public async Task<Response> Store([FromBody] ventaDto ventaDto)
+        public async Task<Response<object>> Store([FromBody] ventaDto ventaDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} Lista({JsonConvert.SerializeObject(ventaDto, Formatting.Indented)}) Inizialize ...");
             try
             {
                 var createVenta = await this._ventaModule.StoreVenta(ventaDto);
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Creado correctamente",
@@ -98,7 +98,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -109,13 +109,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("preview-pago/{id}")]
-        public async Task<Response> MostrarPago(int id)
+        public async Task<Response<object>> MostrarPago(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} MostrarPago({id}) Inizialize ...");
             try
             {
                 var preview = await this._ventaModule.PreviewPagoVenta(id);
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Preview pago Venta",
@@ -126,7 +126,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -137,13 +137,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost("procesar-pago/{id}")]
-        public async Task<Response> ProcesarPago(int id, [FromBody] ProcesarPagoDto procesarPagoDto)
+        public async Task<Response<string>> ProcesarPago(int id, [FromBody] ProcesarPagoDto procesarPagoDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ProcesarPago({id},{procesarPagoDto.fecha}) Inizialize ...");
             try
             {
                 var procesarPago = await this._ventaModule.StoreprocesoPagoVenta(id, procesarPagoDto.fecha);
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = "Pago de venta procesado correctamente",
@@ -154,7 +154,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",

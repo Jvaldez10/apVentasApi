@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
+using sistema_venta_erp.Entidades;
 using sistema_venta_erp.Modulos;
 
 namespace sistema_venta_erp.Controllers
@@ -25,13 +26,13 @@ namespace sistema_venta_erp.Controllers
             this._clasificacionModule = clasificacionModule;
         }
         [HttpGet]
-        public async Task<Response> ObtenerTodo()
+        public async Task<Response<List<ClasificacionLista>>> ObtenerTodo()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
                 var clasificaciones = await this._clasificacionModule.ObtenerTodo();
-                var resultado = new Response
+                var resultado = new Response<List<ClasificacionLista>>
                 {
                     status = 1,
                     message = "Todo los clasificacion",
@@ -42,7 +43,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<List<ClasificacionLista>>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -53,13 +54,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<Response> ObtenerUno(int id)
+        public async Task<Response<VClasificacion>> ObtenerUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
             try
             {
                 var clasificacion = await this._clasificacionModule.ObtenerUno(id);
-                var resultado = new Response
+                var resultado = new Response<VClasificacion>
                 {
                     status = 1,
                     message = "Todo proveedor",
@@ -70,7 +71,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<VClasificacion>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -81,13 +82,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
          [HttpGet("clasificacion-padre/{id}")]
-        public async Task<Response> ObtenerUnoPadreId(int id)
+        public async Task<Response<List<VClasificacion>>> ObtenerUnoPadreId(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUnoPadreId({id}) Inizialize ...");
             try
             {
                 var clasificacion = await this._clasificacionModule.ObtenerUnoPadreId(id);
-                var resultado = new Response
+                var resultado = new Response<List<VClasificacion>>
                 {
                     status = 1,
                     message = "Todo clasificacion Padre id",
@@ -98,7 +99,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<List<VClasificacion>>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -109,13 +110,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("create")]
-        public async Task<Response> CrearUno()
+        public async Task<Response<object>> CrearUno()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno() Inizialize ...");
             try
             {
                 var create = await this._clasificacionModule.CrearUno();
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Todo proveedor",
@@ -126,7 +127,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -137,13 +138,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost]
-        public async Task<Response> InsertarUno([FromBody] ClasificacionDto ClasificacionDto)
+        public async Task<Response<ClasificacionDto>> InsertarUno([FromBody] ClasificacionDto ClasificacionDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(ClasificacionDto, Formatting.Indented)}) Inizialize ...");
             try
             {
                 var insertar = await this._clasificacionModule.InsertarUno(ClasificacionDto);
-                var resultado = new Response
+                var resultado = new Response<ClasificacionDto>
                 {
                     status = 1,
                     message = insertar,
@@ -154,7 +155,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<ClasificacionDto>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -165,13 +166,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("editar/{id}")]
-        public async Task<Response> EditarUno(int id)
+        public async Task<Response<object>> EditarUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} EditarUno({id}) Inizialize ...");
             try
             {
                 var obtenerUno = await this._clasificacionModule.EditarUno(id);
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Editar",
@@ -182,7 +183,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -193,7 +194,7 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<Response> ModificarUno(int id, [FromBody] ClasificacionDto ClasificacionDto)
+        public async Task<Response<string>> ModificarUno(int id, [FromBody] ClasificacionDto ClasificacionDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(ClasificacionDto, Formatting.Indented)}) Inizialize ...");
             try
@@ -201,7 +202,7 @@ namespace sistema_venta_erp.Controllers
                 var modificar = await this._clasificacionModule.ModificarUno(id,
                     ClasificacionDto
                 );
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = modificar,
@@ -212,7 +213,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -223,13 +224,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<Response> EliminarUno(int id)
+        public async Task<Response<string>> EliminarUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} EliminarUno({id}) Inizialize ...");
             try
             {
                 var eliminar = await this._clasificacionModule.EliminarUno(id);
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = eliminar,
@@ -240,7 +241,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
+using sistema_venta_erp.Entidades;
 using sistema_venta_erp.Modulos;
 
 namespace sistema_venta_erp.Controllers
@@ -25,13 +26,13 @@ namespace sistema_venta_erp.Controllers
             this._planCuentaModulo = planCuentaModulo;
         }
         [HttpGet]
-        public async Task<Response> ObtenerTodo()
+        public async Task<Response<List<VPlanCuentas>>> ObtenerTodo()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
                 var proveedoresLista = await this._planCuentaModulo.ObtenerTodo();
-                var resultado = new Response
+                var resultado = new Response<List<VPlanCuentas>>
                 {
                     status = 1,
                     message = "Todo los proveedores",
@@ -42,7 +43,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<List<VPlanCuentas>>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -53,13 +54,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("create")]
-        public async Task<Response> CreateUno([FromQuery] int nivel, int padre)
+        public async Task<Response<GeneracionCodigo>> CreateUno([FromQuery] int nivel, int padre)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} CreateUno({nivel},{padre}) Inizialize ...");
             try
             {
                 var codigo = await this._planCuentaModulo.CreateUno(nivel, padre);
-                var resultado = new Response
+                var resultado = new Response<GeneracionCodigo>
                 {
                     status = 1,
                     message = "Create nivel",
@@ -70,7 +71,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<GeneracionCodigo>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -81,13 +82,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<Response> ObtenerUno(int id)
+        public async Task<Response<VPlanCuentas>> ObtenerUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
             try
             {
                 var proveedor = await this._planCuentaModulo.ObtenerUno(id);
-                var resultado = new Response
+                var resultado = new Response<VPlanCuentas>
                 {
                     status = 1,
                     message = "Todo proveedor",
@@ -98,7 +99,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<VPlanCuentas>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -109,13 +110,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpGet("editar/{id}")]
-        public async Task<Response> EditarUno(int id)
+        public async Task<Response<VPlanCuentas>> EditarUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno({id}) Inizialize ...");
             try
             {
                 var proveedor = await this._planCuentaModulo.ObtenerUno(id);
-                var resultado = new Response
+                var resultado = new Response<VPlanCuentas>
                 {
                     status = 1,
                     message = "Todo proveedor",
@@ -126,7 +127,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<VPlanCuentas>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -137,13 +138,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost]
-        public async Task<Response> InsertarUno([FromBody] planCuentaDto planCuentaDto)
+        public async Task<Response<string>> InsertarUno([FromBody] planCuentaDto planCuentaDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(planCuentaDto, Formatting.Indented)}) Inizialize ...");
             try
             {
                 var insertar = await this._planCuentaModulo.InsertarUno(planCuentaDto);
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = insertar,
@@ -154,7 +155,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -165,7 +166,7 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<Response> ModificarUno(int id, [FromBody] planCuentaDto planCuentaDto)
+        public async Task<Response<string>> ModificarUno(int id, [FromBody] planCuentaDto planCuentaDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ModificarUno({JsonConvert.SerializeObject(planCuentaDto, Formatting.Indented)}) Inizialize ...");
             try
@@ -173,7 +174,7 @@ namespace sistema_venta_erp.Controllers
                 var modificar = await this._planCuentaModulo.ModificarUno(id,
                     planCuentaDto
                 );
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = modificar,
@@ -184,7 +185,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -195,13 +196,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<Response> EliminarUno(int id)
+        public async Task<Response<string>> EliminarUno(int id)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} EliminarUno({id}) Inizialize ...");
             try
             {
                 var eliminar = await this._planCuentaModulo.EliminarUno(id);
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = eliminar,
@@ -212,7 +213,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",

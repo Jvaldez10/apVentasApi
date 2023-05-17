@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
+using sistema_venta_erp.Entidades;
 using sistema_venta_erp.Modulos;
 
 namespace sistema_venta_erp.Controllers
@@ -25,13 +26,13 @@ namespace sistema_venta_erp.Controllers
             this._asientoModule = asientoModule;
         }
         [HttpGet]
-        public async Task<Response> ObtenerTodo()
+        public async Task<Response<List<ListaAsiento>>> ObtenerTodo()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
                 var asientos = await this._asientoModule.ObtenerTodoAsiento();
-                var resultado = new Response
+                var resultado = new Response<List<ListaAsiento>>
                 {
                     status = 1,
                     message = "Todo los asientos",
@@ -42,7 +43,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<List<ListaAsiento>>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -109,13 +110,13 @@ namespace sistema_venta_erp.Controllers
             }
         } */
         [HttpGet("create")]
-        public async Task<Response> CrearUno()
+        public async Task<Response<object>> CrearUno()
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerUno() Inizialize ...");
             try
             {
                 var create = await this._asientoModule.CreateAsiento();
-                var resultado = new Response
+                var resultado = new Response<object>
                 {
                     status = 1,
                     message = "Todo proveedor",
@@ -126,7 +127,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<object>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",
@@ -137,13 +138,13 @@ namespace sistema_venta_erp.Controllers
             }
         }
         [HttpPost]
-        public async Task<Response> InsertarUno([FromBody] AsientoDto asientoDto)
+        public async Task<Response<string>> InsertarUno([FromBody] AsientoDto asientoDto)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} InsertarUno({JsonConvert.SerializeObject(asientoDto, Formatting.Indented)}) Inizialize ...");
             try
             {
                 var insertar = await this._asientoModule.StoreAsiento(asientoDto);
-                var resultado = new Response
+                var resultado = new Response<string>
                 {
                     status = 1,
                     message = insertar,
@@ -154,7 +155,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<string>
                 {
                     status = 0,
                     message = e.Message,

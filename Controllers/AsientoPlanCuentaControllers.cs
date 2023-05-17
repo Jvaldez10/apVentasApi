@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
+using sistema_venta_erp.Entidades.Querys;
 using sistema_venta_erp.Modulos;
 using sistema_venta_erp.Repositorio;
 
@@ -28,13 +29,13 @@ namespace sistema_venta_erp.Controllers
             this._asientoPlanCuentaModule = asientoPlanCuentaModule;
         }
         [HttpGet]
-        public async Task<Response> ObtenerTodo([FromQuery] int tipoAsientoId)
+        public async Task<Response<List<ObtenerTipoAsiento>>> ObtenerTodo([FromQuery] int tipoAsientoId)
         {
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
                 var asientos = await this._asientoPlanCuentaModule.ObtenerTodoAsientoPlanCuenta(tipoAsientoId);
-                var resultado = new Response
+                var resultado = new Response<List<ObtenerTipoAsiento>>
                 {
                     status = 1,
                     message = "Todo los asientos",
@@ -45,7 +46,7 @@ namespace sistema_venta_erp.Controllers
             }
             catch (System.Exception e)
             {
-                var result = new Response
+                var result = new Response<List<ObtenerTipoAsiento>>
                 {
                     status = 0,
                     message = $"Ocurrio un error inesperado",

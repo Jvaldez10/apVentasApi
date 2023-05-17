@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace sistema_venta_erp.Controllers.Dto
 {
-    public class Response
+    public class Response<Tipo>
     {
         public int status { get; set; }
         public string message { get; set; }
-        public object data { get; set; } = null;
+        public Tipo data { get; set; } = default;
     }
 }

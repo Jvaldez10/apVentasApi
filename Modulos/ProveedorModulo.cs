@@ -46,7 +46,7 @@ namespace sistema_venta_erp.Modulos
             var proveedor = await this._proveedoresRepositorio.ObtenerUnoproveedorRepositorio(id);
             return proveedor;
         }
-        public async Task<CreateDto> CrearUno()
+        public async Task<CreateProveedorDto> CrearUno()
         {
             var proveedores = await this._proveedoresRepositorio.ObtenerTodoProveedoresRepositorio();
             var codigo = $"prov-00";
@@ -55,7 +55,7 @@ namespace sistema_venta_erp.Modulos
                 var ultimo = proveedores.Last();
                 codigo = $"prov-0{ultimo.id}";
             }
-            var resultado = new CreateDto
+            var resultado = new CreateProveedorDto
             {
                 codigo = codigo,
             };
@@ -194,7 +194,7 @@ namespace sistema_venta_erp.Modulos
         }
     }
 
-    public class CreateDto
+    public class CreateProveedorDto
     {
         public string codigo { get; set; }
         public List<VMoneda> monedas { get; set; }
