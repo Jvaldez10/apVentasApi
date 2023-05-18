@@ -18,10 +18,10 @@ namespace sistema_venta_erp.Repositorio
             this._logger = logger;
             this._dBContext = dBContext;
         }
-        public async Task<Persona> ObtenerUnoPersonaIdRepositorio(int personaId)
+        public async Task<Persona> ObtenerUno(int personaId)
         {
             this._logger.LogWarning($"PersonaRepositorio/{System.Reflection.MethodBase.GetCurrentMethod()}({personaId}): Inizialize...");
-            var resultado = await this._dBContext.persona.Where(X => X.id == X.id).FirstOrDefaultAsync();
+            var resultado = await this._dBContext.persona.FirstOrDefaultAsync(X => X.id == X.id);
             this._logger.LogWarning($"PersonaRepositorio/{System.Reflection.MethodBase.GetCurrentMethod()} SUCCESS => {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
             return resultado;
         }

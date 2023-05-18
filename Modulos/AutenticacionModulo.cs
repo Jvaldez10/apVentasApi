@@ -12,11 +12,13 @@ namespace sistema_venta_erp.Modulos
     {
         private readonly IConfiguration _configuration;
         private readonly UsuarioRepositorio _usuarioRepositorio;
+        private readonly PersonaRepositorio _personaRepositorio;
 
-        public AutenticacionModulo(IConfiguration configuration,UsuarioRepositorio usuarioRepositorio)
+        public AutenticacionModulo(IConfiguration configuration,UsuarioRepositorio usuarioRepositorio,PersonaRepositorio personaRepositorio)
         {
             _configuration = configuration;
             _usuarioRepositorio = usuarioRepositorio;
+            _personaRepositorio = personaRepositorio;
         }
 
         public async Task<TokenDto> Login(string usuario,string password)
@@ -28,6 +30,23 @@ namespace sistema_venta_erp.Modulos
             }
             return await ConstrucToken(user.id, user.usuario);
             
+        }
+        public async Task<UsuarioDto> ObtenerDatosUsuario(int id)
+        {
+            var user = await _usuarioRepositorio.ObtenerUno(id);
+            var persona = await _personaRepositorio.ObtenerUno(user.personaId);
+            if (user == null)
+            {
+                return null;
+            }
+            return new UsuarioDto
+            {
+                apellido = persona.apellido,
+                nombre = persona.nombre,
+                usuario = user.usuario,
+                direccion = persona.direccion
+            };
+
         }
 
         private async Task<TokenDto> ConstrucToken(int usuarioId, string usuario)

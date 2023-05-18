@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
 using sistema_venta_erp.Entidades;
 using sistema_venta_erp.Modulos;
+using sistema_venta_erp.Utilidades;
 
 namespace sistema_venta_erp.Controllers
 {
@@ -30,6 +31,9 @@ namespace sistema_venta_erp.Controllers
         [HttpGet]
         public async Task<Response<List<ListaAsiento>>> ObtenerTodo()
         {
+            var id = GetClaim.GetClaimValue(HttpContext, "id");
+            this._logger.LogWarning($"--------------------------{id}");
+
             this._logger.LogWarning($"{Request.Method}{Request.Path} ObtenerTodo() Inizialize ...");
             try
             {
