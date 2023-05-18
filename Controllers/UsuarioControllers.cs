@@ -36,7 +36,7 @@ namespace sistema_venta_erp.Controllers
                 {
                     data = data,
                     message = "Login correcto",
-                    status = 200
+                    status = 1
                 };
                 this._logger.LogWarning($"Login() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
@@ -66,7 +66,7 @@ namespace sistema_venta_erp.Controllers
                 {
                     data = data,
                     message = "Usuario Obtenido correctamente",
-                    status = 200
+                    status = 1
                 };
                 this._logger.LogWarning($"Login() SUCCESS=> {JsonConvert.SerializeObject(resultado, Formatting.Indented)}");
                 return resultado;
