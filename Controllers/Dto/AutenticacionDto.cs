@@ -8,6 +8,6 @@ namespace sistema_venta_erp.Controllers.Dto
     public class AutenticacionDto
     {
         public string usuario { get; set; }
-        public string contrasena { get; set; }
+        public string password { get; set; }
     }
 }

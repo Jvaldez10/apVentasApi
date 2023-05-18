@@ -41,5 +41,9 @@ namespace sistema_venta_erp.Contexto
         public virtual DbSet<EstadoOrdenCompra> estadoordencompra { get; set; }
         public virtual DbSet<VentaProducto> ventaproducto { get; set; }
         public virtual DbSet<StockAlmacen> stockalmacen { get; set; }
+        public virtual DbSet<Persona> persona { get; set; }
+        public virtual DbSet<Usuario> usuario { get; set; }
+        public virtual DbSet<Rol> rol { get; set; }
+        public virtual DbSet<Roles> roles { get; set; }
     }
 }

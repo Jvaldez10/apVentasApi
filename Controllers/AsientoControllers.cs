@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using sistema_venta_erp.Controllers.Dto;
@@ -12,6 +13,7 @@ namespace sistema_venta_erp.Controllers
 {
     [ApiController]
     [Route("api/asiento")]
+    [Authorize]
     public class AsientoControllers : ControllerBase
     {
         private readonly ILogger<AsientoControllers> _logger;

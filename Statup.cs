@@ -64,6 +64,7 @@ namespace sistema_venta_erp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -89,6 +90,7 @@ namespace sistema_venta_erp
             services.AddTransient<OrdenCompraModule>();
             services.AddTransient<VentaModule>();
             services.AddTransient<StockAlmacenModule>();
+            services.AddTransient<AutenticacionModulo>();
         }
         private void ServicesTransitorioRepositorio(IServiceCollection services)
         {
@@ -120,6 +122,8 @@ namespace sistema_venta_erp
             services.AddTransient<EstadoVentaRepositorio>();
             services.AddTransient<VentaProductoRepositorio>();
             services.AddTransient<StockAlmacenRespositorio>();
+            services.AddTransient<PersonaRepositorio>();
+            services.AddTransient<UsuarioRepositorio>();
         }
         private void ServicesTransitorioConsulta(IServiceCollection services)
         {
